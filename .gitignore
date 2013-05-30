@@ -1,0 +1,11 @@
+/*.sdf
+/.git
+/Debug.win32
+/*.opensdf
+/*.suo
+/MyTetris/proj.android/obj
+/MyTetris/proj.win32/Debug.win32
+/MyTetris/proj.android/bin
+/*.suo
+
+/MyTetris/proj.android/libs/armeabi/*.so

@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{dbd5c82c-5c04-4e90-b1c9-336e385c2944}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{697e285c-e4e7-4e71-9c29-9842b7bdaf31}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{7654d446-8985-4ad8-87ca-3f65e1c08c10}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\MyTetris.ico">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\CloseSelected.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\CloseNormal.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\HelloWorld.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\CloseSelected.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\green.jpg">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\HelloWorld.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\left1.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\left2.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\orange.jpg">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\p4.jpg">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\purple.jpg">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\red.jpg">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\right1.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\right2.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\yellow.jpg">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\c1.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\c2.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\images\CloseNormal.png">
+      <Filter>resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MyTetris.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Square.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Square.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
