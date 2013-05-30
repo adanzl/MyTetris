@@ -12,8 +12,8 @@ NodeMap CSquare::allocMap(){
 CSquare::CSquare(void): m_nIndexState(0), m_nState(1)
 {
 	srand( (unsigned)time(NULL));
-	m_type = SQUARETYPE(rand()%sizeof(SQUARETYPE));
-    //m_type = TYPE_I;
+	m_type = SQUARETYPE(rand()%(sizeof(SQUARETYPE)+1));
+    //m_type = TYPE_S;
     NodeMap nodeMap = NULL;
 	switch (m_type)
 	{

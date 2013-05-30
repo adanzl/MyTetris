@@ -53,12 +53,13 @@ bool HelloWorld::init()
             "images/CloseSelected.png",
             this,
             menu_selector(HelloWorld::menuCloseCallback));
+		pCloseItem->setScale(size.height / pCloseItem->getContentSize().height / 14);
         CC_BREAK_IF(! pCloseItem);
 
         // Place the menu item top-right conner.
         pCloseItem->setPosition(ccp(size.width - 50, size.height - 50));
 
-        CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background.mp3", true);
+        CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background.wav", true);
 
         // 2. Add a label shows "Hello World".
 
@@ -104,19 +105,25 @@ bool HelloWorld::init()
 		m_reference = ccp(mainAreaX - _N_WIDTH_BLOCK*m_nSquareSize/2, 
 			mainAreaY + _N_HEIGTH_BLOCK*m_nSquareSize/2);
 
+		
         CCMenuItemImage *btn_left = CCMenuItemImage::create("images/left1.png", "images/left2.png", 
             this, menu_selector(HelloWorld::moveLeft));
         btn_left->setPosition(ccp(size.width/5, size.height/10));
+		btn_left->setScale(size.height / btn_left->getContentSize().height / 14);
+
         CCMenuItemImage *btn_right = CCMenuItemImage::create("images/right1.png", "images/right2.png", 
             this, menu_selector(HelloWorld::moveRight));
         btn_right->setPosition(ccp(size.width*2/5, size.height/10));
+		btn_right->setScale(size.height / btn_right->getContentSize().height / 14);
         CCMenuItemImage *btn_change = CCMenuItemImage::create("images/c1.png", "images/c2.png", 
             this, menu_selector(HelloWorld::changeShape));
         btn_change->setPosition(ccp(size.width*3/5, size.height/10));
+		btn_change->setScale(size.height / btn_change->getContentSize().height / 14);
 
         CCMenuItemImage *btn_down = CCMenuItemImage::create("images/orange.jpg", "images/green.jpg", 
             this, menu_selector(HelloWorld::moveDown));
         btn_down->setPosition(ccp(size.width*4/5, size.height/10));
+		btn_down->setScale(size.height / btn_down->getContentSize().height / 14);
 
 
         // Create a menu with the "close" menu item, it's an auto release object.
@@ -151,8 +158,10 @@ void HelloWorld::update(float time){
 	}
 
 	double d = m_livePoint.y - m_reference.y;
-	if(d-((int)d / m_nSquareSize)*m_nSquareSize >0.000000001){
-		liveDown(m_nSquareSize/FRAME_RATE);
+	m_nFrame++;
+	if(m_nFrame%(int)FRAME_RATE == 0){
+		m_nFrame = 0;
+		liveDown(m_nSquareSize);
 		return;
 	}
     //check
@@ -214,7 +223,7 @@ int HelloWorld::checkAndRemove(){
         return 1;
     }
 
-    liveDown(m_nSquareSize/FRAME_RATE);
+    //liveDown(m_nSquareSize);
     
     return 0;
 }
@@ -247,8 +256,7 @@ void HelloWorld::moveDown(CCObject* pSender){
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("blip1.wav");
     int i=5;
     while(i-- && !checkAndRemove()){
-	    double d = m_livePoint.y - m_reference.y;
-	    liveDown(d-((int)d / m_nSquareSize)*m_nSquareSize + m_nSquareSize);
+	    liveDown(m_nSquareSize);
     }
 }
 
@@ -337,29 +345,28 @@ CSquare* HelloWorld::createSquare(CCPoint midPoint){
 	CSquare* square = new CSquare();
 	srand((unsigned)time(NULL));
 	const char* pic = g_color[rand()%N_COLOR];
-	CCSprite *node = CCSprite::create(pic);
-	double scale = m_nSquareSize/node->getContentSize().width;
+	m_liveNodes[0] = CCSprite::create(pic);
+	double scale = m_nSquareSize/m_liveNodes[0]->getContentSize().width;
 
 	CCPoint anchorP = ccp(0, 0);
-	node->setScale(scale);
-	node->setAnchorPoint(anchorP);
-	m_liveNodes[0] = node;
-	addChild(node);
-	node = CCSprite::create(pic);
-	node->setScale(scale);
-	node->setAnchorPoint(anchorP);
-	m_liveNodes[1] = node;
-	addChild(node);
-	node = CCSprite::create(pic);
-	node->setScale(scale);
-	node->setAnchorPoint(anchorP);
-	m_liveNodes[2] = node;
-	addChild(node);
-	node = CCSprite::create(pic);
-	node->setScale(scale);
-	node->setAnchorPoint(anchorP);
-	m_liveNodes[3] = node;
-	addChild(node);
+	m_liveNodes[0]->setScale(scale);
+	m_liveNodes[0]->setAnchorPoint(anchorP);
+	addChild(m_liveNodes[0]);
+
+	m_liveNodes[1] = CCSprite::create(pic);
+	m_liveNodes[1]->setScale(scale);
+	m_liveNodes[1]->setAnchorPoint(anchorP);
+	addChild(m_liveNodes[1]);
+
+	m_liveNodes[2] = CCSprite::create(pic);
+	m_liveNodes[2]->setScale(scale);
+	m_liveNodes[2]->setAnchorPoint(anchorP);
+	addChild(m_liveNodes[2]);
+
+	m_liveNodes[3] = CCSprite::create(pic);
+	m_liveNodes[3]->setScale(scale);
+	m_liveNodes[3]->setAnchorPoint(anchorP);
+	addChild(m_liveNodes[3]);
 
 	updateSquarePos(square, midPoint);
 	m_livePoint = midPoint;
