@@ -159,6 +159,12 @@
     <ClCompile Include="..\Classes\Square.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\background.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Resources\background.mp3" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

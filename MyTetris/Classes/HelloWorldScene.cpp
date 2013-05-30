@@ -1,5 +1,6 @@
 #include "cocos2d.h"
 #include "HelloWorldScene.h"
+#include "SimpleAudioEngine.h"
 #define N_COLOR 5
 
 const char* g_color[N_COLOR] = {
@@ -57,6 +58,7 @@ bool HelloWorld::init()
         // Place the menu item top-right conner.
         pCloseItem->setPosition(ccp(size.width - 50, size.height - 50));
 
+        CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background.mp3", true);
 
         // 2. Add a label shows "Hello World".
 
@@ -104,17 +106,17 @@ bool HelloWorld::init()
 
         CCMenuItemImage *btn_left = CCMenuItemImage::create("images/left1.png", "images/left2.png", 
             this, menu_selector(HelloWorld::moveLeft));
-        btn_left->setPosition(ccp(size.width/5, 100));
+        btn_left->setPosition(ccp(size.width/5, size.height/10));
         CCMenuItemImage *btn_right = CCMenuItemImage::create("images/right1.png", "images/right2.png", 
             this, menu_selector(HelloWorld::moveRight));
-        btn_right->setPosition(ccp(size.width*2/5, 100));
+        btn_right->setPosition(ccp(size.width*2/5, size.height/10));
         CCMenuItemImage *btn_change = CCMenuItemImage::create("images/c1.png", "images/c2.png", 
             this, menu_selector(HelloWorld::changeShape));
-        btn_change->setPosition(ccp(size.width*3/5, 100));
+        btn_change->setPosition(ccp(size.width*3/5, size.height/10));
 
         CCMenuItemImage *btn_down = CCMenuItemImage::create("images/orange.jpg", "images/green.jpg", 
             this, menu_selector(HelloWorld::moveDown));
-        btn_down->setPosition(ccp(size.width*4/5, 100));
+        btn_down->setPosition(ccp(size.width*4/5, size.height/10));
 
 
         // Create a menu with the "close" menu item, it's an auto release object.
@@ -242,6 +244,7 @@ int HelloWorld::barrierCheck(NodeMap sharpArray, int offx, int offy){
 
 void HelloWorld::moveDown(CCObject* pSender){
 
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("blip1.wav");
     int i=5;
     while(i-- && !checkAndRemove()){
 	    double d = m_livePoint.y - m_reference.y;
@@ -259,6 +262,8 @@ void HelloWorld::liveDown(double distance){
 }
 
 void HelloWorld::moveLeft(CCObject* pSender){
+
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("blip1.wav");
 	NodeMap sharpArray = m_pLiveSquare->getNodeMap();
 	int offsetX = abs(m_livePoint.x - m_reference.x)/m_nSquareSize;
 	int offsetY = abs(m_livePoint.y - m_reference.y)/m_nSquareSize;
@@ -276,6 +281,7 @@ void HelloWorld::moveLeft(CCObject* pSender){
 }
 
 void HelloWorld::moveRight(CCObject* pSender){
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("blip1.wav");
 	NodeMap sharpArray = m_pLiveSquare->getNodeMap();
 	int offsetX = abs(m_livePoint.x - m_reference.x)/m_nSquareSize;
 	int offsetY = abs(m_livePoint.y - m_reference.y)/m_nSquareSize;
@@ -293,6 +299,7 @@ void HelloWorld::moveRight(CCObject* pSender){
 }
 
 void HelloWorld::changeShape(CCObject* pSender){
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("blip1.wav");
 	int offsetX = abs(m_livePoint.x - m_reference.x)/m_nSquareSize;
 	int offsetY = abs(m_livePoint.y - m_reference.y)/m_nSquareSize;
 	int ret = barrierCheck(m_pLiveSquare->getNextNodeMap(), offsetX, offsetY);

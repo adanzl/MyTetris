@@ -109,4 +109,14 @@
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\background.ogg">
+      <Filter>resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Resources\background.mp3">
+      <Filter>resource</Filter>
+    </Media>
+  </ItemGroup>
 </Project>
