@@ -13,7 +13,7 @@ CSquare::CSquare(void): m_nIndexState(0), m_nState(1)
 {
 	srand( (unsigned)time(NULL));
 	m_type = SQUARETYPE(rand()%(sizeof(SQUARETYPE)+1));
-    //m_type = TYPE_S;
+    //m_type = TYPE_I;
     NodeMap nodeMap = NULL;
 	switch (m_type)
 	{
@@ -96,13 +96,13 @@ CSquare::CSquare(void): m_nIndexState(0), m_nState(1)
         nodeMap = m_NodeMap[0] = allocMap();
 		nodeMap[1][1] = 1;
 		nodeMap[2][1] = 1;
-		nodeMap[3][2] = 1;
 		nodeMap[2][2] = 1;
+		nodeMap[3][2] = 1;
         nodeMap = m_NodeMap[1] = allocMap();
 		nodeMap[3][1] = 1;
 		nodeMap[2][2] = 1;
 		nodeMap[3][2] = 1;
-		nodeMap[3][3] = 1;
+		nodeMap[2][3] = 1;
         
 		break;
 	default:

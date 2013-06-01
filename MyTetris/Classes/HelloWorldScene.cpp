@@ -162,26 +162,24 @@ void HelloWorld::update(float time){
 	if(m_nFrame%(int)FRAME_RATE == 0){
 		m_nFrame = 0;
 		liveDown(m_nSquareSize);
-		return;
+	} else {
+		//check
+		checkAndRemove();
 	}
-    //check
-    checkAndRemove();
-	return;
 
 }
 
 int HelloWorld::checkAndRemove(){
 
     //’œ∞≠ºÏ≤‚
-    int i,j;
     int offsetX = abs(m_livePoint.x - m_reference.x)/m_nSquareSize;
     int offsetY = abs(m_livePoint.y - m_reference.y)/m_nSquareSize;
     NodeMap liveSharpArray = m_pLiveSquare->getNodeMap();
     if(barrierCheck(liveSharpArray, offsetX, offsetY + 1)){
         //æÿ’Û«–ªª
         int n=0;
-        for(i=0; i<_N_SQUARE; i++){
-            for(j=0; j<_N_SQUARE; j++){
+        for(int i=0; i<_N_SQUARE; i++){
+            for(int j=0; j<_N_SQUARE; j++){
                 if(liveSharpArray[i][j]){
                     m_squareMap[offsetY-_N_SQUARE+i][offsetX-2+j] = m_liveNodes[n++];
                 }
@@ -192,23 +190,25 @@ int HelloWorld::checkAndRemove(){
 
         //œ˚øÈºÏ≤‚
         bool bRemove;
-        for(j=0; j<_N_SQUARE; j++){
+		int nRemoved = 0;
+        for(int j=0; j<_N_SQUARE; j++){
             bRemove = true;
-            for(i=0; i<_N_WIDTH_BLOCK; i++){
-                if(!m_squareMap[offsetY+j-(_N_SQUARE-1)][i]){
+			int cy = offsetY - j + nRemoved - 1;
+            for(int i=0; i<_N_WIDTH_BLOCK; i++){
+                if(!m_squareMap[cy][i]){
                     bRemove = false;
                     break;
                 }
             }
             if(bRemove){
                 //
-                for(i=0; i<_N_WIDTH_BLOCK; i++){
-                    removeChild(m_squareMap[offsetY+j-(_N_SQUARE-1)][i]);
-                    m_squareMap[offsetY+j-(_N_SQUARE-1)][i] = NULL;
+                for(int i=0; i<_N_WIDTH_BLOCK; i++){
+                    removeChild(m_squareMap[cy][i]);
+                    m_squareMap[cy][i] = NULL;
                 }
-                for(int x=0; x<_N_WIDTH_BLOCK; x++){
-                    for(int y=offsetY-1; y>0; y--){
-                        CCSprite* p = m_squareMap[y][x];
+				for(int y=cy; y>0; y--){
+					for(int x=0; x<_N_WIDTH_BLOCK; x++){
+                        CCSprite* p = m_squareMap[y-1][x];
                         if(p){
                             CCPoint cP = p->getPosition();
                             p->setPosition(ccp(cP.x, cP.y - m_nSquareSize));
@@ -216,7 +216,7 @@ int HelloWorld::checkAndRemove(){
                         m_squareMap[y][x] = m_squareMap[y-1][x];
                     }
                 }
-                offsetY++;
+                nRemoved++;
             }
         }
 
@@ -235,6 +235,8 @@ int HelloWorld::barrierCheck(NodeMap sharpArray, int offx, int offy){
 			if(sharpArray[j][i]){
 				int y = offy - ((_N_SQUARE-1)-j);
                 int x = offx - _N_SQUARE/2 + i;
+				if(!y)
+					break;
 				if(y > _N_HEIGTH_BLOCK){
 					return _OUT_OF_AREA_DOWN;
 				} else if(x < 0){
@@ -254,6 +256,7 @@ int HelloWorld::barrierCheck(NodeMap sharpArray, int offx, int offy){
 void HelloWorld::moveDown(CCObject* pSender){
 
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("blip1.wav");
+	m_nFrame = 0;
     int i=5;
     while(i-- && !checkAndRemove()){
 	    liveDown(m_nSquareSize);
