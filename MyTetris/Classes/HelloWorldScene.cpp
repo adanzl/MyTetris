@@ -161,7 +161,7 @@ void HelloWorld::update(float time){
 	m_nFrame++;
 	if(m_nFrame%(int)FRAME_RATE == 0){
 		m_nFrame = 0;
-		liveDown(m_nSquareSize);
+		liveMove(_DIRECTION_DWON, m_nSquareSize);
 	} else {
 		//check
 		checkAndRemove();
@@ -259,17 +259,33 @@ void HelloWorld::moveDown(CCObject* pSender){
 	m_nFrame = 0;
     int i=5;
     while(i-- && !checkAndRemove()){
-	    liveDown(m_nSquareSize);
+	    liveMove(_DIRECTION_DWON, m_nSquareSize);
     }
 }
 
-void HelloWorld::liveDown(double distance){
-	for(int i=0; i<_N_SQUARE; i++){
-		CCSprite* node = m_liveNodes[i];
-		CCPoint cP = node->getPosition();
-		node->setPosition(ccp(cP.x, cP.y - distance));
-	}
-	m_livePoint.y -= distance;
+void HelloWorld::liveMove(int direction, double distance){
+    if(direction == _DIRECTION_DWON){
+        for(int i=0; i<_N_SQUARE; i++){
+            CCSprite* node = m_liveNodes[i];
+            CCPoint cP = node->getPosition();
+            node->setPosition(ccp(cP.x, cP.y - distance));
+        }
+        m_livePoint.y -= distance;
+    } else if(direction == _DIRECTION_LEFT){
+        for(int i=0; i<_N_SQUARE; i++){
+            CCSprite* node = m_liveNodes[i];
+            CCPoint cP = node->getPosition();
+            node->setPosition(ccp(cP.x - m_nSquareSize, cP.y));
+        }
+        m_livePoint.x -= m_nSquareSize;
+    } else if(direction == _DIRECTION_RIGHT){
+        for(int i=0; i<_N_SQUARE; i++){
+            CCSprite* node = m_liveNodes[i];
+            CCPoint cP = node->getPosition();
+            node->setPosition(ccp(cP.x + m_nSquareSize, cP.y));
+        }
+        m_livePoint.x += m_nSquareSize;
+    }
 }
 
 void HelloWorld::moveLeft(CCObject* pSender){
@@ -283,12 +299,7 @@ void HelloWorld::moveLeft(CCObject* pSender){
         return;
     }
 
-	for(int i=0; i<_N_SQUARE; i++){
-		CCSprite* node = m_liveNodes[i];
-		CCPoint cP = node->getPosition();
-		node->setPosition(ccp(cP.x - m_nSquareSize, cP.y));
-	}
-	m_livePoint.x -= m_nSquareSize;
+	liveMove(_DIRECTION_LEFT, m_nSquareSize);
 }
 
 void HelloWorld::moveRight(CCObject* pSender){
@@ -301,29 +312,58 @@ void HelloWorld::moveRight(CCObject* pSender){
         return;
     }
 
-	for(int i=0; i<_N_SQUARE; i++){
-		CCSprite* node = m_liveNodes[i];
-		CCPoint cP = node->getPosition();
-		node->setPosition(ccp(cP.x + m_nSquareSize, cP.y));
-	}
-	m_livePoint.x += m_nSquareSize;
+	liveMove(_DIRECTION_RIGHT, m_nSquareSize);
 }
 
 void HelloWorld::changeShape(CCObject* pSender){
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("blip1.wav");
 	int offsetX = abs(m_livePoint.x - m_reference.x)/m_nSquareSize;
 	int offsetY = abs(m_livePoint.y - m_reference.y)/m_nSquareSize;
-	int ret = barrierCheck(m_pLiveSquare->getNextNodeMap(), offsetX, offsetY);
+    NodeMap nextMap = m_pLiveSquare->getNextNodeMap();
+	int ret = barrierCheck(nextMap, offsetX, offsetY);
 
 	if(ret == _OUT_OF_AREA_BARRIER || ret == _OUT_OF_AREA_DOWN){
 		return;
 	}
+    if(ret != _OUT_OF_AREA_NO){
+        int ret1;
+        switch (ret){
+        case _OUT_OF_AREA_LEFT:
+            ret1 = barrierCheck(nextMap, offsetX+1, offsetY);
+            if(ret1 == _OUT_OF_AREA_LEFT){
+                ret1 = barrierCheck(nextMap, offsetX+2, offsetY);
+                if(ret1 == _OUT_OF_AREA_NO){
+                    liveMove(_DIRECTION_RIGHT, m_nSquareSize*2);
+                } else {
+                    return;
+                }
+            } else if(ret1 == _OUT_OF_AREA_NO){
+                liveMove(_DIRECTION_RIGHT, m_nSquareSize);
+            } else {
+                return;
+            }
+            break;
+        case _OUT_OF_AREA_RIGHT:
+            ret1 = barrierCheck(nextMap, offsetX-1, offsetY);
+            if(ret1 == _OUT_OF_AREA_LEFT){
+                ret1 = barrierCheck(nextMap, offsetX-2, offsetY);
+                if(ret1 == _OUT_OF_AREA_NO){
+                    liveMove(_DIRECTION_LEFT, m_nSquareSize*2);
+                } else {
+                    return;
+                }
+            } else if(ret1 == _OUT_OF_AREA_NO){
+                liveMove(_DIRECTION_LEFT, m_nSquareSize);
+            } else {
+                return;
+            }
+            break;
+        default:
+            break;
+        }
+    }
 
-	if(ret == _OUT_OF_AREA_NO){
-		m_pLiveSquare->ChangeSharp();
-	}
-	
-
+    m_pLiveSquare->ChangeSharp();
 	updateSquarePos(m_pLiveSquare, m_livePoint);
 }
 

@@ -17,6 +17,10 @@
 #define _OUT_OF_AREA_RIGHT		2
 #define _OUT_OF_AREA_DOWN		3
 
+#define _DIRECTION_LEFT          0
+#define _DIRECTION_RIGHT         1
+#define _DIRECTION_DWON          2
+
 using namespace cocos2d;
 
 class HelloWorld : public cocos2d::CCLayer
@@ -55,7 +59,7 @@ private:
 
 	CSquare* createSquare(CCPoint);
 	void updateSquarePos(CSquare*, CCPoint);
-	void liveDown(double distance);
+	void liveMove(int direction, double distance);
 	int barrierCheck(NodeMap sharpArray, int offx, int offy);
     int checkAndRemove();
 };
