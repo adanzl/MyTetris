@@ -1,2 +1,2 @@
-"# This is my README" 
-»ùÓÚcocos2dxµÄ¶íÂÞË¹·½¿é
+ï»¿"# This is my README" 
+åŸºäºŽcocos2dxçš„ä¿„ç½—æ–¯æ–¹å—
