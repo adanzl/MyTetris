@@ -275,16 +275,16 @@ void HelloWorld::liveMove(int direction, double distance){
         for(int i=0; i<_N_SQUARE; i++){
             CCSprite* node = m_liveNodes[i];
             CCPoint cP = node->getPosition();
-            node->setPosition(ccp(cP.x - m_nSquareSize, cP.y));
+            node->setPosition(ccp(cP.x - distance, cP.y));
         }
-        m_livePoint.x -= m_nSquareSize;
+        m_livePoint.x -= distance;
     } else if(direction == _DIRECTION_RIGHT){
         for(int i=0; i<_N_SQUARE; i++){
             CCSprite* node = m_liveNodes[i];
             CCPoint cP = node->getPosition();
-            node->setPosition(ccp(cP.x + m_nSquareSize, cP.y));
+            node->setPosition(ccp(cP.x + distance, cP.y));
         }
-        m_livePoint.x += m_nSquareSize;
+        m_livePoint.x += distance;
     }
 }
 
