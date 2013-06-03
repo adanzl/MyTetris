@@ -345,7 +345,7 @@ void HelloWorld::changeShape(CCObject* pSender){
             break;
         case _OUT_OF_AREA_RIGHT:
             ret1 = barrierCheck(nextMap, offsetX-1, offsetY);
-            if(ret1 == _OUT_OF_AREA_LEFT){
+            if(ret1 == _OUT_OF_AREA_RIGHT){
                 ret1 = barrierCheck(nextMap, offsetX-2, offsetY);
                 if(ret1 == _OUT_OF_AREA_NO){
                     liveMove(_DIRECTION_LEFT, m_nSquareSize*2);
